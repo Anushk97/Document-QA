@@ -49,7 +49,8 @@ callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
 #llm = ChatOpenAI(model_name="gpt-3.5-turbo", openai_api_key="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")
 
 ### HUGGINGFACE
-repo_id = "google/flan-t5-base"
+#repo_id = "google/flan-t5-base"
+repo_id = "sshleifer/distilbart-cnn-12-6"
 
 llm = HuggingFaceHub(
     repo_id=repo_id, model_kwargs={"temperature": 0.1, "max_length": 500})
