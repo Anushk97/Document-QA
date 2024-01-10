@@ -44,38 +44,11 @@ model_basename = "llama-2-13b-chat.ggmlv3.q5_1.bin" # the model is in bin format
 model_path = hf_hub_download(repo_id=model_name_or_path, filename=model_basename)
 
 callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
-'''
-llm = CTransformers(
- model= model_path,
- model_type = 'llama',
- max_tokens=512,
- temperature = 0.5,
- n_gpu_layers=40,
- n_batch=512,
- top_p=0.95,
- repeat_penalty=1.2,
- top_k=1,
- callback_manager=callback_manager,
- verbose=True)
-'''
 
-# Make sure the model path is correct for your system!
-'''
-llm = LlamaCpp(
-    model_path='llama-2-7b-chat.Q4_K_M.gguf',
-    temperature=0.75,
-    max_tokens=512,
-    top_p=1,
-    callback_manager=callback_manager,
-    verbose=True,  # Verbose is required to pass to the callback manager
-)
-'''
 ### OPEN AI
 #llm = ChatOpenAI(model_name="gpt-3.5-turbo", openai_api_key="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")
 
-
 ### HUGGINGFACE
-
 repo_id = "google/flan-t5-base"
 
 llm = HuggingFaceHub(
