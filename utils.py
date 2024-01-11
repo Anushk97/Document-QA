@@ -17,7 +17,7 @@ def find_match(input):
     result = index.query(input_em, top_k=10, includeMetadata=True)
     return result['matches'][0]['metadata']['text'] + result['matches'][1]['metadata']['text']
 
-'''
+
 def query_refiner(conversation, query):
     response = openai.completions.create(
         model="gpt-3.5-turbo-instruct",
@@ -28,23 +28,6 @@ def query_refiner(conversation, query):
         frequency_penalty=0,
         presence_penalty=0
     )
-    return response.choices[0].text
-'''
-
-pipe = pipeline("text2text-generation", model="google/flan-t5-base")
-
-messages = [
-    {
-        "role": "system",
-        "content": "You are a friendly chatbot who always responds in the style of a pirate",
-    },
-    {"role": "user", "content": "How many helicopters can a human eat in one sitting?"},
-]
-
-def query_refiner(conversation, query):
-    prompt = pipe.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-    response = pipe(prompt, max_new_tokens=256, do_sample=True, temperature=0.7, top_k=5, top_p=0.95)
-    
     return response.choices[0].text
 
 
