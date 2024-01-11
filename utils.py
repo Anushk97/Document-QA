@@ -2,6 +2,7 @@ from sentence_transformers import SentenceTransformer
 import pinecone
 import openai
 import streamlit as st
+from transformers import pipeline
 
 openai.api_key = "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"
 model = SentenceTransformer('multi-qa-distilbert-cos-v1')
@@ -15,6 +16,7 @@ def find_match(input):
     result = index.query(input_em, top_k=10, includeMetadata=True)
     return result['matches'][0]['metadata']['text'] + result['matches'][1]['metadata']['text']
 
+'''
 def query_refiner(conversation, query):
     response = openai.completions.create(
         model="gpt-3.5-turbo-instruct",
@@ -25,6 +27,15 @@ def query_refiner(conversation, query):
         frequency_penalty=0,
         presence_penalty=0
     )
+    return response.choices[0].text
+'''
+
+pipe = pipeline("text-generation", model="TinyLlama/TinyLlama-1.1B-Chat-v1.0", torch_dtype=torch.bfloat16, device_map="auto")
+
+def query_refiner(conversation, query):
+    response = pipe(prompt = "Given the following user query, formulate a question that would be the most relevant to provide the user with an answer from a knowledge base", 
+                     max_new_tokens=256, do_sample=True, temperature=0.7, top_k=5, top_p=0.95)
+    
     return response.choices[0].text
 
 
