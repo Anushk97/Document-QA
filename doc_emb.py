@@ -21,7 +21,7 @@ def split_docs(documents,chunk_size=5000,chunk_overlap=50):
 
 #print(len(docs))
 
-embeddings = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
+embeddings = SentenceTransformerEmbeddings(model_name="multi-qa-distilbert-cos-v1")
 
 # query_result = embeddings.embed_query("otot")
 
