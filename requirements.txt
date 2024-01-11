@@ -5,4 +5,5 @@ sentence_transformers
 huggingface_hub
 pinecone-client
 openai
+pypdf
 
