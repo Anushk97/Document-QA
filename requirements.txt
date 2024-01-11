@@ -6,4 +6,4 @@ huggingface_hub
 pinecone-client
 openai
 pypdf
-
+torch
