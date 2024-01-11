@@ -111,7 +111,7 @@ with textcontainer:
             refined_query = query_refiner(conversation_string, query)
             st.subheader("Refined Query:")
             st.write(refined_query)
-            context = find_match(refined_query)
+            context = find_match(query)
             # print(context)
             response = conversation.predict(input=f"Context:\n {context} \n\n Query:\n{query}")
         st.session_state.requests.append(query)
