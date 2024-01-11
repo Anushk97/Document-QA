@@ -59,7 +59,7 @@ llm = HuggingFaceHub(
 #llm = AutoModelForQuestionAnswering.from_pretrained(repo_id)
 
 if 'buffer_memory' not in st.session_state:
-            st.session_state.buffer_memory=ConversationBufferWindowMemory(k=1,return_messages=True)
+            st.session_state.buffer_memory=ConversationBufferWindowMemory(k=0,return_messages=True)
 
 uploaded_file = st.file_uploader("Choose a file", type='pdf')
 if uploaded_file:
