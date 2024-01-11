@@ -12,7 +12,7 @@ index = pinecone.Index('langchain-chatbot-v2')
 
 def find_match(input):
     input_em = model.encode(input).tolist()
-    result = index.query(input_em, top_k=5, includeMetadata=True)
+    result = index.query(input_em, top_k=10, includeMetadata=True)
     return result['matches'][0]['metadata']['text'] + result['matches'][1]['metadata']['text']
 
 def query_refiner(conversation, query):
