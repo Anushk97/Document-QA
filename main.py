@@ -79,7 +79,7 @@ if uploaded_file:
        environment="gcp-starter"  # next to api key in console
    )
 
-   embeddings = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
+   embeddings = SentenceTransformerEmbeddings(model_name="multi-qa-distilbert-cos-v1")
    index = Pinecone.from_documents(docs, embeddings, index_name=index_name)
 
 #index_name = "langchain-chatbot"
