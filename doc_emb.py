@@ -31,7 +31,7 @@ pinecone.init(
     environment="gcp-starter"  # next to api key in console
 )
 
-index_name = "langchain-chatbot"
+index_name = "langchain-chatbot-v2"
 
 #index = Pinecone.from_documents(docs, embeddings, index_name=index_name)
 
