@@ -31,7 +31,7 @@ def query_refiner(conversation, query):
     return response.choices[0].text
 '''
 
-pipe = pipeline("text-generation", model="TinyLlama/TinyLlama-1.1B-Chat-v1.0", torch_dtype=torch.bfloat16, device_map="auto")
+pipe = pipeline("text2text-generation", model="google/flan-t5-base")
 
 messages = [
     {
