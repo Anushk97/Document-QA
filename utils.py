@@ -35,10 +35,10 @@ def find_match(input):
     encoded_input = tokenizer(input, padding=True, truncation=True, return_tensors='pt')
     with torch.no_grad():
         model_output = model(**encoded_input)
-    ##sentence_embeddings = mean_pooling(model_output, encoded_input['attention_mask'])
+    sentence_embeddings = mean_pooling(model_output, encoded_input['attention_mask'])
     ##input_em = F.normalize(sentence_embeddings, p=2, dim=1).tolist()
 
-    sentence_embeddings = util.mean_pooling(model_output, encoded_input['attention_mask'])
+    #sentence_embeddings = util.mean_pooling(model_output, encoded_input['attention_mask'])
     input_em = torch.nn.functional.normalize(sentence_embeddings, p=2, dim=1).cpu().numpy()
 
     # Perform similarity search using Faiss
