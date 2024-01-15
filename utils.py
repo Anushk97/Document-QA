@@ -42,7 +42,7 @@ def find_match(input):
     result = index.query(input_em, top_k=2, includeMetadata=True)
     return result['matches'][0]['metadata']['text'] + result['matches'][1]['metadata']['text']
 
-
+'''
 def query_refiner(query):
     response = openai.completions.create(
         model="gpt-3.5-turbo-instruct",
@@ -56,17 +56,17 @@ def query_refiner(query):
     return response.choices[0].text
 '''
 def query_refiner(query):
-    model_id = "mistralai/Mixtral-8x7B-Instruct-v0.1"
+    model_id = "mlabonne/phixtral-4x2_8"
     tokenizer = AutoTokenizer.from_pretrained(model_id)
     model = AutoModelForCausalLM.from_pretrained(model_id)
     inputs = tokenizer(query, return_tensors="pt")
     
     outputs = model.generate(**inputs, max_new_tokens=256)
 
-    refined_text = tokenizer.decode(output_ids[0], skip_special_tokens=True)
+    refined_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
 
     return refined_text
-'''
+
 def get_conversation_string():
     conversation_string = ""
     for i in range(len(st.session_state['responses']) - 1):
