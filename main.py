@@ -87,13 +87,8 @@ for uploaded_file in uploaded_files:
             index = Pinecone.from_documents(docs, embeddings, index_name=index_name)
         
         except:
-            print('Please give a file name')
+            print('Some error in indexing')
 
-# Display the list of uploaded file names
-st.write("Uploaded Files:")
-for file_name in file_list:
-    # Provide a checkbox for each file name to allow users to remove files
-    st.write(file_name)
 
 #index_name = "langchain-chatbot"
 #index = Pinecone.from_documents(docs, embeddings, index_name=index_name)
