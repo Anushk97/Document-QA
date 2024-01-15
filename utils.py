@@ -5,6 +5,7 @@ import streamlit as st
 from transformers import pipeline
 import torch
 from transformers import AutoTokenizer, AutoModel
+import torch.nn.functional as F
 
 openai.api_key = "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"
 #model = SentenceTransformer('multi-qa-distilbert-cos-v1')
