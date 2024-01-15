@@ -67,17 +67,9 @@ uploaded_files = st.file_uploader("Choose a file", type='pdf', accept_multiple_f
 file_list = []
 
 for uploaded_file in uploaded_files:
-    if uploaded_file is not None:
+    if uploaded_file:
         # Append the name of the uploaded file to the file_list
         file_list.append(uploaded_file.name)
-
-# Display the list of uploaded file names
-st.write("Uploaded Files:")
-for file_name in file_list:
-    # Provide a checkbox for each file name to allow users to remove files
-    st.write(file_name)
-
-if uploaded_file:
    try:
        filename = st.text_input('input here', key='input_1')
    except:
@@ -100,6 +92,12 @@ if uploaded_file:
 
    embeddings = SentenceTransformerEmbeddings(model_name="multi-qa-distilbert-cos-v1")
    index = Pinecone.from_documents(docs, embeddings, index_name=index_name)
+
+# Display the list of uploaded file names
+st.write("Uploaded Files:")
+for file_name in file_list:
+    # Provide a checkbox for each file name to allow users to remove files
+    st.write(file_name)
 
 #index_name = "langchain-chatbot"
 #index = Pinecone.from_documents(docs, embeddings, index_name=index_name)
