@@ -54,7 +54,7 @@ callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
 repo_id = "mistralai/Mixtral-8x7B-Instruct-v0.1"
 
 llm = HuggingFaceHub(
-    repo_id=repo_id, model_kwargs={"temperature": 0.1, "max_length": 512})
+    repo_id=repo_id, model_kwargs={"temperature": 0.1, "max_length": 1028})
 
 
 #llm = AutoModelForQuestionAnswering.from_pretrained(repo_id)
