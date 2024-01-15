@@ -50,7 +50,8 @@ callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
 
 ### HUGGINGFACE
 #repo_id = "google/flan-t5-base"
-repo_id = "facebook/bart-large-cnn"
+#repo_id = "facebook/bart-large-cnn"
+repo_id = "mistralai/Mixtral-8x7B-Instruct-v0.1"
 
 llm = HuggingFaceHub(
     repo_id=repo_id, model_kwargs={"temperature": 0.1, "max_length": 500})
