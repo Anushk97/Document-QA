@@ -6,7 +6,8 @@ from transformers import pipeline
 import torch
 
 openai.api_key = "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"
-model = SentenceTransformer('multi-qa-distilbert-cos-v1')
+#model = SentenceTransformer('multi-qa-distilbert-cos-v1')
+model = SentenceTransformer('all-mpnet-base-v2')
 
 pinecone.init(api_key='09d08617-45d2-4ce8-b708-d8291d5570d6', environment='gcp-starter')
 index = pinecone.Index('langchain-chatbot-v2')
