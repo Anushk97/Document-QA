@@ -8,4 +8,4 @@ openai
 pypdf
 torch
 accelerate
-scikit-learn
+faiss
