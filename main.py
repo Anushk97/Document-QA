@@ -86,7 +86,12 @@ if uploaded_file:
 #index_name = "langchain-chatbot"
 #index = Pinecone.from_documents(docs, embeddings, index_name=index_name)
 
-prompt = st.text_input('prompt template', '')
+option = st.selectbox("common prompts", ('Summarize from context", "Analyse from context"))
+
+if option:
+    prompt = st.text_input('prompt template', option)
+else:
+    prompt = st.text_input('prompt template', "")
 
 system_msg_template = SystemMessagePromptTemplate.from_template(template=prompt)
 
