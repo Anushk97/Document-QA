@@ -72,26 +72,22 @@ for uploaded_file in uploaded_files:
         file_list.append(uploaded_file.name)
         try:
             filename = st.text_input('input here', key='input_1')
-        except:
-            print('Please give a file name')
-           
-        temp_file = filename
-        with open(temp_file, "wb") as file:
-            file.write(uploaded_file.getvalue())
-            file_name = uploaded_file.name
-    
-        loader = PyPDFLoader(temp_file)
-        pages = loader.load_and_split()
-        docs = split_docs(pages)
-    #loader = PyPDFLoader(tmp_location)
-    #pages = loader.load_and_split()
-        pinecone.init(
-           api_key="09d08617-45d2-4ce8-b708-d8291d5570d6",  # find at app.pinecone.io
-           environment="gcp-starter"  # next to api key in console
-        )
-    
+            temp_file = filename
+            with open(temp_file, "wb") as file:
+                file.write(uploaded_file.getvalue())
+                file_name = uploaded_file.name
+            loader = PyPDFLoader(temp_file)
+            pages = loader.load_and_split()
+            docs = split_docs(pages)
+            pinecone.init(
+               api_key="09d08617-45d2-4ce8-b708-d8291d5570d6",  # find at app.pinecone.io
+               environment="gcp-starter"  # next to api key in console
+            )
         embeddings = SentenceTransformerEmbeddings(model_name="multi-qa-distilbert-cos-v1")
         index = Pinecone.from_documents(docs, embeddings, index_name=index_name)
+        
+        except:
+            print('Please give a file name')
 
 # Display the list of uploaded file names
 st.write("Uploaded Files:")
