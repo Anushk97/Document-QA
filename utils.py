@@ -42,7 +42,7 @@ def find_match(input):
     result = index.query(input_em, top_k=2, includeMetadata=True)
     return result['matches'][0]['metadata']['text'] + result['matches'][1]['metadata']['text']
 
-'''
+
 def query_refiner(query):
     response = openai.completions.create(
         model="gpt-3.5-turbo-instruct",
@@ -66,7 +66,7 @@ def query_refiner(query):
     refined_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
 
     return refined_text
-
+'''
 def get_conversation_string():
     conversation_string = ""
     for i in range(len(st.session_state['responses']) - 1):
