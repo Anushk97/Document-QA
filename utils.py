@@ -56,7 +56,7 @@ def query_refiner(query):
     return response.choices[0].text
 '''
 def query_refiner(query):
-    model_id = "mistralai/Mixtral-8x7B-Instruct-v0.1"
+    model_id = "mistralai/Mistral-7B-Instruct-v0.2"
     tokenizer = AutoTokenizer.from_pretrained(model_id)
     model = AutoModelForCausalLM.from_pretrained(model_id)
     inputs = tokenizer(query, return_tensors="pt")
