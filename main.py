@@ -75,13 +75,14 @@ for uploaded_file in uploaded_files:
 st.write("Uploaded Files:")
 for file_name in file_list:
     # Provide a checkbox for each file name to allow users to remove files
-    remove_file = st.checkbox(file_name)
-    if remove_file:
-        # Remove the file name from the file_list if the checkbox is selected
-        file_list.remove(file_name)
+    st.write(file_name)
 
 if uploaded_file:
-   filename = st.text_input('input here', key='input_1')
+   try:
+       filename = st.text_input('input here', key='input_1')
+   except:
+       print('Please give a file name')
+       
    temp_file = filename
    with open(temp_file, "wb") as file:
        file.write(uploaded_file.getvalue())
