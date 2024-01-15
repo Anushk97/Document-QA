@@ -14,6 +14,9 @@ model = SentenceTransformer('all-mpnet-base-v2')
 pinecone.init(api_key='09d08617-45d2-4ce8-b708-d8291d5570d6', environment='gcp-starter')
 index = pinecone.Index('langchain-chatbot-v2')
 
+if st.button("Reset"):
+    index.delete(delete_all=True, namespace='langchain-chatbot-v2')
+
 def mean_pooling(model_output, attention_mask):
     token_embeddings = model_output[0] #First element of model_output contains all token embeddings
     input_mask_expanded = attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float()
