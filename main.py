@@ -90,6 +90,7 @@ for idx, uploaded_file in enumerate(uploaded_files):
         # Add documents to the existing index
         index.upsert(docs, embeddings)
 
+
 '''
 temp_file = 'tmp'
 for uploaded_file in uploaded_files:
