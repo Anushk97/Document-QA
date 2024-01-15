@@ -37,21 +37,7 @@ def find_match(input):
 
     #input_em = model.encode(input).tolist()
     result = index.query(input_em, top_k=2, includeMetadata=True)
-
-    embedding_0 = result['matches'][0]['embedding']
-    embedding_1 = result['matches'][1]['embedding']
-
-    # Calculate cosine similarity using sklearn
-    similarity_0 = cosine_similarity([input_em], [embedding_0])[0][0]
-    similarity_1 = cosine_similarity([input_em], [embedding_1])[0][0]
-
-    # Return the most similar match along with the matched text
-    if similarity_0 > similarity_1:
-        return result['matches'][0]['metadata']['text']
-    else:
-        return result['matches'][1]['metadata']['text']
-    
-    #return result['matches'][0]['metadata']['text'] + result['matches'][1]['metadata']['text']
+    return result['matches'][0]['metadata']['text'] + result['matches'][1]['metadata']['text']
 
 
 def query_refiner(query):
