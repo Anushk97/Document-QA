@@ -62,7 +62,7 @@ llm = HuggingFaceHub(
 if 'buffer_memory' not in st.session_state:
             st.session_state.buffer_memory=ConversationBufferWindowMemory(k=0,return_messages=True)
 
-uploaded_file = st.file_uploader("Choose a file", type='pdf', accept_multiple_files = True)
+uploaded_files = st.file_uploader("Choose a file", type='pdf', accept_multiple_files = True)
 
 file_list = []
 
