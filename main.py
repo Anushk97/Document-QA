@@ -26,6 +26,8 @@ from langchain.llms import HuggingFaceHub
 from huggingface_hub import InferenceClient
 from transformers import AutoModelForQuestionAnswering
 from doc_emb import *
+from langchain_community.vectorstores import Pinecone
+import pinecone
 
 import os
 
