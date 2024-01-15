@@ -66,6 +66,8 @@ uploaded_files = st.file_uploader("Choose a file", type='pdf', accept_multiple_f
 
 file_list = []
 
+model = SentenceTransformer('all-mpnet-base-v2')
+
 for uploaded_file in uploaded_files:
     if uploaded_file:
         # Append the name of the uploaded file to the file_list
@@ -83,7 +85,8 @@ for uploaded_file in uploaded_files:
                api_key="09d08617-45d2-4ce8-b708-d8291d5570d6",  # find at app.pinecone.io
                environment="gcp-starter"  # next to api key in console
             )
-            embeddings = SentenceTransformerEmbeddings(model_name="multi-qa-distilbert-cos-v1")
+            ##embeddings = SentenceTransformerEmbeddings(model_name="multi-qa-distilbert-cos-v1")
+            embeddings = SentenceTransformerEmbeddings(model_name="all-mpnet-base-v2")
             index = Pinecone.from_documents(docs, embeddings, index_name=index_name)
         
         except:
