@@ -71,8 +71,8 @@ for uploaded_file in uploaded_files:
         # Append the name of the uploaded file to the file_list
         file_list.append(uploaded_file.name)
         try:
-            filename = st.text_input('input here', key='input_1')
-            temp_file = filename
+            #filename = st.text_input('input here', key='input_1')
+            temp_file = 'tmp'
             with open(temp_file, "wb") as file:
                 file.write(uploaded_file.getvalue())
                 file_name = uploaded_file.name
