@@ -56,9 +56,9 @@ def query_refiner(query):
     return response.choices[0].text
 '''
 def query_refiner(query):
-    model_id = "mlabonne/phixtral-4x2_8"
-    tokenizer = AutoTokenizer.from_pretrained(model_id, trust_remote_code=True)
-    model = AutoModelForCausalLM.from_pretrained(model_id, trust_remote_code=True)
+    model_id = "mistralai/Mixtral-8x7B-Instruct-v0.1"
+    tokenizer = AutoTokenizer.from_pretrained(model_id)
+    model = AutoModelForCausalLM.from_pretrained(model_id)
     inputs = tokenizer(query, return_tensors="pt")
     
     outputs = model.generate(**inputs, max_new_tokens=256)
