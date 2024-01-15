@@ -13,8 +13,8 @@ openai.api_key = ""
 #model = SentenceTransformer('multi-qa-distilbert-cos-v1')
 #model = SentenceTransformer('all-mpnet-base-v2')
 
-pinecone.init(api_key='09d08617-45d2-4ce8-b708-d8291d5570d6', environment='gcp-starter')
-index = pinecone.Index('langchain-chatbot-v2')
+#pinecone.init(api_key='09d08617-45d2-4ce8-b708-d8291d5570d6', environment='gcp-starter')
+#index = pinecone.Index('langchain-chatbot-v2')
 
 if st.button("Reset"):
     index.delete(delete_all=True, namespace='langchain-chatbot-v2')
@@ -28,8 +28,8 @@ def mean_pooling(model_output, attention_mask):
 tokenizer = AutoTokenizer.from_pretrained('sentence-transformers/all-mpnet-base-v2')
 model = AutoModel.from_pretrained('sentence-transformers/all-mpnet-base-v2')
 
-index_dimension = model.config.hidden_size
-index_f = faiss.IndexFlatIP(index_dimension)
+#index_dimension = model.config.hidden_size
+#index_f = faiss.IndexFlatIP(index_dimension)
 
 def find_match(input):
     encoded_input = tokenizer(input, padding=True, truncation=True, return_tensors='pt')
