@@ -36,20 +36,11 @@ def find_match(input):
     with torch.no_grad():
         model_output = model(**encoded_input)
     sentence_embeddings = mean_pooling(model_output, encoded_input['attention_mask'])
-    ##input_em = F.normalize(sentence_embeddings, p=2, dim=1).tolist()
-
-    input_em = torch.nn.functional.normalize(sentence_embeddings, p=2, dim=1).cpu().numpy()
-    k = 2  # Top 2 matches
-    distances, indices = index_f.search(input_em, k)
-
-    retrieved_items = index.retrieve(ids=indices[0])
-
-    matches = [item['text'] for item in retrieved_items]
-    return matches
+    input_em = F.normalize(sentence_embeddings, p=2, dim=1).tolist()
 
     #input_em = model.encode(input).tolist()
-    ##result = index.query(input_em, top_k=2, includeMetadata=True)
-    ##return result['matches'][0]['metadata']['text'] + result['matches'][1]['metadata']['text']
+    result = index.query(input_em, top_k=2, includeMetadata=True)
+    return result['matches'][0]['metadata']['text'] + result['matches'][1]['metadata']['text']
 
 
 def query_refiner(query):
