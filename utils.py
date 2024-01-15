@@ -25,8 +25,8 @@ def mean_pooling(model_output, attention_mask):
     return torch.sum(token_embeddings * input_mask_expanded, 1) / torch.clamp(input_mask_expanded.sum(1), min=1e-9)
 
 # Load model from HuggingFace Hub
-tokenizer = AutoTokenizer.from_pretrained('sentence-transformers/all-mpnet-base-v2')
-model = AutoModel.from_pretrained('sentence-transformers/all-mpnet-base-v2')
+tokenizer = AutoTokenizer.from_pretrained('sentence-transformers/all-MiniLM-L12-v2')
+model = AutoModel.from_pretrained('sentence-transformers/all-MiniLM-L12-v2')
 
 index_dimension = model.config.hidden_size
 index_f = faiss.IndexFlatIP(index_dimension)
