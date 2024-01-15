@@ -42,7 +42,9 @@ def find_match(input):
     k = 2  # Top 2 matches
     distances, indices = index_f.search(input_em, k)
 
-    matches = [index[i]['text'] for i in indices[0]]
+    retrieved_items = index.retrieve(ids=indices[0])
+
+    matches = [item['text'] for item in retrieved_items]
     return matches
 
     #input_em = model.encode(input).tolist()
