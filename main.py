@@ -83,8 +83,8 @@ for uploaded_file in uploaded_files:
                api_key="09d08617-45d2-4ce8-b708-d8291d5570d6",  # find at app.pinecone.io
                environment="gcp-starter"  # next to api key in console
             )
-        embeddings = SentenceTransformerEmbeddings(model_name="multi-qa-distilbert-cos-v1")
-        index = Pinecone.from_documents(docs, embeddings, index_name=index_name)
+            embeddings = SentenceTransformerEmbeddings(model_name="multi-qa-distilbert-cos-v1")
+            index = Pinecone.from_documents(docs, embeddings, index_name=index_name)
         
         except:
             print('Please give a file name')
