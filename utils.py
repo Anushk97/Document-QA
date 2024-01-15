@@ -15,7 +15,7 @@ model = SentenceTransformer('all-mpnet-base-v2')
 pinecone.init(api_key='09d08617-45d2-4ce8-b708-d8291d5570d6', environment='gcp-starter')
 index = pinecone.Index('langchain-chatbot-v2')
 
-if st.button("Reset database"):
+if st.button("Reset"):
     index.delete(delete_all=True, namespace='langchain-chatbot-v2')
 
 def mean_pooling(model_output, attention_mask):
