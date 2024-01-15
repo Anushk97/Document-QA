@@ -39,11 +39,11 @@ if 'responses' not in st.session_state:
 if 'requests' not in st.session_state:
     st.session_state['requests'] = []
 
-model_name_or_path = "TheBloke/Llama-2-13B-chat-GGML"
-model_basename = "llama-2-13b-chat.ggmlv3.q5_1.bin" # the model is in bin format
-model_path = hf_hub_download(repo_id=model_name_or_path, filename=model_basename)
+#model_name_or_path = "TheBloke/Llama-2-13B-chat-GGML"
+#model_basename = "llama-2-13b-chat.ggmlv3.q5_1.bin" # the model is in bin format
+#model_path = hf_hub_download(repo_id=model_name_or_path, filename=model_basename)
 
-callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
+#callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
 
 ### OPEN AI
 #llm = ChatOpenAI(model_name="gpt-3.5-turbo", openai_api_key="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")
