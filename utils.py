@@ -33,9 +33,25 @@ def find_match(input):
         model_output = model(**encoded_input)
     sentence_embeddings = mean_pooling(model_output, encoded_input['attention_mask'])
     input_em = F.normalize(sentence_embeddings, p=2, dim=1).tolist()
+
     #input_em = model.encode(input).tolist()
-    result = index.query(input_em, top_k=10, includeMetadata=True)
-    return result['matches'][0]['metadata']['text'] + result['matches'][1]['metadata']['text']
+    result = index.query(input_em, top_k=2, includeMetadata=True)
+
+    matches = result['matches']
+    metadata_0 = matches[0]['metadata']['text']
+    metadata_1 = matches[1]['metadata']['text']
+
+    # Calculate cosine similarity between input and matched embeddings
+    similarity_0 = util.pytorch_cos_sim(torch.tensor([normalized_input_em]), torch.tensor([matches[0]['embedding']]))[0][0].item()
+    similarity_1 = util.pytorch_cos_sim(torch.tensor([normalized_input_em]), torch.tensor([matches[1]['embedding']]))[0][0].item()
+
+    # Return the most similar match
+    if similarity_0 > similarity_1:
+        return metadata_0
+    else:
+        return metadata_1
+    
+    #return result['matches'][0]['metadata']['text'] + result['matches'][1]['metadata']['text']
 
 '''
 def query_refiner(conversation, query):
