@@ -62,12 +62,25 @@ llm = HuggingFaceHub(
 if 'buffer_memory' not in st.session_state:
             st.session_state.buffer_memory=ConversationBufferWindowMemory(k=0,return_messages=True)
 
-uploaded_file = st.file_uploader("Choose a file", type='pdf')
+uploaded_file = st.file_uploader("Choose a file", type='pdf', accept_multiple_files = True)
 
 file_list = []
 
+for uploaded_file in uploaded_files:
+    if uploaded_file is not None:
+        # Append the name of the uploaded file to the file_list
+        file_list.append(uploaded_file.name)
+
+# Display the list of uploaded file names
+st.write("Uploaded Files:")
+for file_name in file_list:
+    # Provide a checkbox for each file name to allow users to remove files
+    remove_file = st.checkbox(file_name)
+    if remove_file:
+        # Remove the file name from the file_list if the checkbox is selected
+        file_list.remove(file_name)
+
 if uploaded_file:
-   file_list.append(uploaded_file.name)
    filename = st.text_input('input here', key='input_1')
    temp_file = filename
    with open(temp_file, "wb") as file:
@@ -86,15 +99,6 @@ if uploaded_file:
 
    embeddings = SentenceTransformerEmbeddings(model_name="multi-qa-distilbert-cos-v1")
    index = Pinecone.from_documents(docs, embeddings, index_name=index_name)
-
-# Display the list of uploaded file names
-st.write("Uploaded Files:")
-for file_name in file_list:
-    # Provide a checkbox for each file name to allow users to remove files
-    remove_file = st.checkbox(file_name)
-    if remove_file:
-        # Remove the file name from the file_list if the checkbox is selected
-        file_list.remove(file_name)
 
 #index_name = "langchain-chatbot"
 #index = Pinecone.from_documents(docs, embeddings, index_name=index_name)
