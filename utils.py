@@ -34,7 +34,7 @@ def find_match(input):
     input_em = F.normalize(sentence_embeddings, p=2, dim=1).tolist()
     #input_em = model.encode(input).tolist()
     result = index.query(input_em, top_k=10, includeMetadata=True)
-    return result['matches'][0]['metadata']['text'] + result['matches'][1]['metadata']['text']
+    return result['matches'][0]['metadata']['text'] + result['matches'][1]['metadata']['text'] + result['matches'][2]['metadata']['text']
 
 
 def query_refiner(conversation, query):
