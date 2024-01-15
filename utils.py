@@ -28,7 +28,7 @@ def find_match(input):
     with torch.no_grad():
         model_output = model(**encoded_input)
     sentence_embeddings = mean_pooling(model_output, encoded_input['attention_mask'])
-    input_em = F.normalize(sentence_embeddings, p=2, dim=1)
+    input_em = F.normalize(sentence_embeddings, p=2, dim=1).tolist()
     #input_em = model.encode(input).tolist()
     result = index.query(input_em, top_k=10, includeMetadata=True)
     return result['matches'][0]['metadata']['text'] + result['matches'][1]['metadata']['text']
