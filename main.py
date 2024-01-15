@@ -27,7 +27,6 @@ from huggingface_hub import InferenceClient
 from transformers import AutoModelForQuestionAnswering
 from doc_emb import *
 from langchain_community.vectorstores import Pinecone
-import pinecone
 
 import os
 
@@ -129,9 +128,9 @@ with textcontainer:
             refined_query = query_refiner(query)
             st.subheader("Refined Query:")
             st.write(refined_query)
-            ##context = find_match(refined_query)
-            context_docs = index.similarity_search(refined_query)
-            context = context_docs[0].page_content
+            context = find_match(refined_query)
+            #context_docs = index.similarity_search(refined_query)
+            #context = context_docs[0].page_content
             # print(context)
             response = conversation.predict(input=f"Context:\n {context} \n\n Query:\n{query}")
         st.session_state.requests.append(query)
