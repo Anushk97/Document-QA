@@ -9,7 +9,7 @@ import torch.nn.functional as F
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import faiss
 
-openai.api_key = "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"
+openai.api_key = ""
 #model = SentenceTransformer('multi-qa-distilbert-cos-v1')
 #model = SentenceTransformer('all-mpnet-base-v2')
 
