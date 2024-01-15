@@ -65,38 +65,53 @@ if 'buffer_memory' not in st.session_state:
 
 uploaded_files = st.file_uploader("Choose a file", type='pdf', accept_multiple_files = True)
 
-file_list = []
-
 model = SentenceTransformer('all-mpnet-base-v2')
 
+temp_file_base = 'tmp'
+index_name = "langchain-chatbot-v2" 
+
+# Initialize Pinecone outside the loop
+pinecone.init(
+    api_key="09d08617-45d2-4ce8-b708-d8291d5570d6",
+    environment="gcp-starter"
+)
+embeddings = SentenceTransformerEmbeddings(model_name="all-mpnet-base-v2")
+index = Pinecone(index_name)
+
+for idx, uploaded_file in enumerate(uploaded_files):
+    if uploaded_file:
+        temp_file = f'{temp_file_base}_{idx}.pdf'  # Create a unique temporary file for each uploaded file
+        with open(temp_file, "wb") as file:
+            file.write(uploaded_file.read())  # Use read() instead of getvalue()
+        loader = PyPDFLoader(temp_file)
+        pages = loader.load_and_split()
+        docs = split_docs(pages)
+        
+        # Add documents to the existing index
+        index.upsert(docs, embeddings)
+
+'''
+temp_file = 'tmp'
 for uploaded_file in uploaded_files:
     if uploaded_file:
         # Append the name of the uploaded file to the file_list
-        file_list.append(uploaded_file.name)
-        try:
-            #filename = st.text_input('input here', key='input_1')
-            temp_file = 'tmp'
-            with open(temp_file, "wb") as file:
-                file.write(uploaded_file.getvalue())
-                file_name = uploaded_file.name
-            loader = PyPDFLoader(temp_file)
-            pages = loader.load_and_split()
-            docs = split_docs(pages)
-            pinecone.init(
-               api_key="09d08617-45d2-4ce8-b708-d8291d5570d6",  # find at app.pinecone.io
-               environment="gcp-starter"  # next to api key in console
-            )
-            ##embeddings = SentenceTransformerEmbeddings(model_name="multi-qa-distilbert-cos-v1")
-            embeddings = SentenceTransformerEmbeddings(model_name="all-mpnet-base-v2")
-            index = Pinecone.from_documents(docs, embeddings, index_name=index_name)
-        
-        except:
-            print('Some error in indexing')
-
+        with open(temp_file, "wb") as file:
+            file.write(uploaded_file.getvalue())
+            file_name = uploaded_file.name
+        loader = PyPDFLoader(temp_file)
+        pages = loader.load_and_split()
+        docs = split_docs(pages)
+        pinecone.init(
+           api_key="09d08617-45d2-4ce8-b708-d8291d5570d6",  # find at app.pinecone.io
+           environment="gcp-starter"  # next to api key in console
+        )
+        ##embeddings = SentenceTransformerEmbeddings(model_name="multi-qa-distilbert-cos-v1")
+        embeddings = SentenceTransformerEmbeddings(model_name="all-mpnet-base-v2")
+        index = Pinecone.from_documents(docs, embeddings, index_name=index_name)
 
 #index_name = "langchain-chatbot"
 #index = Pinecone.from_documents(docs, embeddings, index_name=index_name)
-
+'''
 option = st.selectbox("common prompts", ("Summarize from context", "Analyse from context"))
 
 if option:
