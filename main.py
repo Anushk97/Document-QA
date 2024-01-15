@@ -76,7 +76,7 @@ pinecone.init(
     environment="gcp-starter"
 )
 embeddings = SentenceTransformerEmbeddings(model_name="all-mpnet-base-v2")
-index = Pinecone(index_name)
+index = pinecone.Index('langchain-chatbot-v2')
 
 for idx, uploaded_file in enumerate(uploaded_files):
     if uploaded_file:
