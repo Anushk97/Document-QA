@@ -7,7 +7,7 @@ import torch
 from transformers import AutoTokenizer, AutoModel
 import torch.nn.functional as F
 from transformers import AutoModelForCausalLM, AutoTokenizer
-from sklearn.metrics.pairwise import cosine_similarity
+import faiss
 
 openai.api_key = "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"
 #model = SentenceTransformer('multi-qa-distilbert-cos-v1')
@@ -28,16 +28,26 @@ def mean_pooling(model_output, attention_mask):
 tokenizer = AutoTokenizer.from_pretrained('sentence-transformers/all-mpnet-base-v2')
 model = AutoModel.from_pretrained('sentence-transformers/all-mpnet-base-v2')
 
+index_dimension = model.config.hidden_size
+index = faiss.IndexFlatIP(index_dimension)
+
 def find_match(input):
     encoded_input = tokenizer(input, padding=True, truncation=True, return_tensors='pt')
     with torch.no_grad():
         model_output = model(**encoded_input)
     sentence_embeddings = mean_pooling(model_output, encoded_input['attention_mask'])
-    input_em = F.normalize(sentence_embeddings, p=2, dim=1).tolist()
+    ##input_em = F.normalize(sentence_embeddings, p=2, dim=1).tolist()
+
+    input_em = torch.nn.functional.normalize(sentence_embeddings, p=2, dim=1).cpu().numpy()
+    k = 2  # Top 2 matches
+    distances, indices = index.search(input_em, k)
+
+    matches = [your_dataset[index]['text'] for index in indices[0]]
+    return matches
 
     #input_em = model.encode(input).tolist()
-    result = index.query(input_em, top_k=2, includeMetadata=True)
-    return result['matches'][0]['metadata']['text'] + result['matches'][1]['metadata']['text']
+    ##result = index.query(input_em, top_k=2, includeMetadata=True)
+    ##return result['matches'][0]['metadata']['text'] + result['matches'][1]['metadata']['text']
 
 
 def query_refiner(query):
