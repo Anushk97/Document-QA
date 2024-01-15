@@ -54,7 +54,7 @@ def find_match(input):
     #return result['matches'][0]['metadata']['text'] + result['matches'][1]['metadata']['text']
 
 
-def query_refiner(conversation, query):
+def query_refiner(query):
     response = openai.completions.create(
         model="gpt-3.5-turbo-instruct",
         prompt=f"Given the following user query, formulate a question that would be the most relevant to provide the user with an answer from a knowledge base. \n\nQuery: {query}\n\nRefined Query:",
