@@ -29,7 +29,7 @@ tokenizer = AutoTokenizer.from_pretrained('sentence-transformers/all-mpnet-base-
 model = AutoModel.from_pretrained('sentence-transformers/all-mpnet-base-v2')
 
 index_dimension = model.config.hidden_size
-index = faiss.IndexFlatIP(index_dimension)
+index_f = faiss.IndexFlatIP(index_dimension)
 
 def find_match(input):
     encoded_input = tokenizer(input, padding=True, truncation=True, return_tensors='pt')
@@ -40,9 +40,9 @@ def find_match(input):
 
     input_em = torch.nn.functional.normalize(sentence_embeddings, p=2, dim=1).cpu().numpy()
     k = 2  # Top 2 matches
-    distances, indices = index.search(input_em, k)
+    distances, indices = index_f.search(input_em, k)
 
-    matches = [your_dataset[index]['text'] for index in indices[0]]
+    matches = [index[i]['text'] for i in indices[0]]
     return matches
 
     #input_em = model.encode(input).tolist()
