@@ -37,19 +37,18 @@ def find_match(input):
     #input_em = model.encode(input).tolist()
     result = index.query(input_em, top_k=2, includeMetadata=True)
 
-    matches = result['matches']
-    metadata_0 = matches[0]['metadata']['text']
-    metadata_1 = matches[1]['metadata']['text']
+    embedding_0 = result['matches'][0]['embedding']
+    embedding_1 = result['matches'][1]['embedding']
 
-    # Calculate cosine similarity between input and matched embeddings
-    similarity_0 = util.pytorch_cos_sim(torch.tensor([normalized_input_em]), torch.tensor([matches[0]['embedding']]))[0][0].item()
-    similarity_1 = util.pytorch_cos_sim(torch.tensor([normalized_input_em]), torch.tensor([matches[1]['embedding']]))[0][0].item()
+    # Calculate cosine similarity using sklearn
+    similarity_0 = cosine_similarity([input_em], [embedding_0])[0][0]
+    similarity_1 = cosine_similarity([input_em], [embedding_1])[0][0]
 
-    # Return the most similar match
+    # Return the most similar match along with the matched text
     if similarity_0 > similarity_1:
-        return metadata_0
+        return result['matches'][0]['metadata']['text']
     else:
-        return metadata_1
+        return result['matches'][1]['metadata']['text']
     
     #return result['matches'][0]['metadata']['text'] + result['matches'][1]['metadata']['text']
 
