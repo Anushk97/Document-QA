@@ -14,7 +14,7 @@ openai.api_key = ""
 #model = SentenceTransformer('all-mpnet-base-v2')
 
 pinecone.init(api_key='09d08617-45d2-4ce8-b708-d8291d5570d6', environment='gcp-starter')
-index = pinecone.Index('langchain-chatbot-v2')
+index = pinecone.Index('langchain-chatbot-v2', metric = 'cosine', shards = 5)
 
 if st.button("Reset"):
     index.delete(delete_all=True, namespace='langchain-chatbot-v2')
