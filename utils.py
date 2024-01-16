@@ -28,18 +28,13 @@ def mean_pooling(model_output, attention_mask):
 tokenizer = AutoTokenizer.from_pretrained('sentence-transformers/all-mpnet-base-v2')
 model = AutoModel.from_pretrained('sentence-transformers/all-mpnet-base-v2')
 
-#index_dimension = model.config.hidden_size
-#index_f = faiss.IndexFlatIP(index_dimension)
-
 def find_match(input):
     encoded_input = tokenizer(input, padding=True, truncation=True, return_tensors='pt')
     with torch.no_grad():
         model_output = model(**encoded_input)
     sentence_embeddings = mean_pooling(model_output, encoded_input['attention_mask'])
     input_em = F.normalize(sentence_embeddings, p=2, dim=1).tolist()
-    #input_em = model.encode(input).tolist()
     result = index.query(input_em, top_k=2, includeMetadata=True)
-    #print(result['matches'][0]['metadata']['text'] + result['matches'][1]['metadata']['text'])
     return result['matches'][0]['metadata']['text'] + result['matches'][1]['metadata']['text']
 
 
@@ -54,19 +49,7 @@ def query_refiner(query):
         presence_penalty=0
     )
     return response.choices[0].text
-'''
-def query_refiner(query):
-    model_id = "mistralai/Mistral-7B-Instruct-v0.2"
-    tokenizer = AutoTokenizer.from_pretrained(model_id)
-    model = AutoModelForCausalLM.from_pretrained(model_id)
-    inputs = tokenizer(query, return_tensors="pt")
-    
-    outputs = model.generate(**inputs, max_new_tokens=256)
 
-    refined_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
-
-    return refined_text
-'''
 def get_conversation_string():
     conversation_string = ""
     for i in range(len(st.session_state['responses']) - 1):
