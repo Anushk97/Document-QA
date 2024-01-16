@@ -79,7 +79,8 @@ for idx, uploaded_file in enumerate(uploaded_files):
         docs = split_docs(pages)
         
         # Add documents to the existing index
-        index.upsert(docs, embeddings)
+        #index.upsert(docs, embeddings)
+        index = Pinecone.from_documents(docs, embeddings, index_name=index_name)
 
 '''
 temp_file = 'tmp'
