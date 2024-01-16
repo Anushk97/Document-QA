@@ -34,7 +34,7 @@ def find_match(input):
         model_output = model(**encoded_input)
     sentence_embeddings = mean_pooling(model_output, encoded_input['attention_mask'])
     input_em = F.normalize(sentence_embeddings, p=2, dim=1).tolist()
-    result = index.query(input_em, top_k=2, includeMetadata=True)
+    result = index.query(input_em, top_k=5, includeMetadata=True)
     return result['matches'][0]['metadata']['text'] + result['matches'][1]['metadata']['text']
 
 
