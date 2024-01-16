@@ -27,11 +27,9 @@ from huggingface_hub import InferenceClient
 from transformers import AutoModelForQuestionAnswering
 from doc_emb import *
 from langchain_community.vectorstores import Pinecone
-
 import os
 
 os.environ["HUGGINGFACEHUB_API_TOKEN"] = "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"
-
 st.subheader("LLM Chatbot")
 
 if 'responses' not in st.session_state:
@@ -39,12 +37,6 @@ if 'responses' not in st.session_state:
 
 if 'requests' not in st.session_state:
     st.session_state['requests'] = []
-
-#model_name_or_path = "TheBloke/Llama-2-13B-chat-GGML"
-#model_basename = "llama-2-13b-chat.ggmlv3.q5_1.bin" # the model is in bin format
-#model_path = hf_hub_download(repo_id=model_name_or_path, filename=model_basename)
-
-#callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
 
 ### OPEN AI
 #llm = ChatOpenAI(model_name="gpt-3.5-turbo", openai_api_key="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")
@@ -59,7 +51,6 @@ llm = HuggingFaceHub(
 
 
 #llm = AutoModelForQuestionAnswering.from_pretrained(repo_id)
-
 if 'buffer_memory' not in st.session_state:
             st.session_state.buffer_memory=ConversationBufferWindowMemory(k=0,return_messages=True)
 
@@ -80,16 +71,15 @@ index = pinecone.Index('langchain-chatbot-v2')
 
 for idx, uploaded_file in enumerate(uploaded_files):
     if uploaded_file:
-        temp_file = f'{temp_file_base}_{idx}.pdf'  # Create a unique temporary file for each uploaded file
+        temp_file = f'{temp_file_base}_{idx}.pdf'  
         with open(temp_file, "wb") as file:
-            file.write(uploaded_file.read())  # Use read() instead of getvalue()
+            file.write(uploaded_file.read()) 
         loader = PyPDFLoader(temp_file)
         pages = loader.load_and_split()
         docs = split_docs(pages)
         
         # Add documents to the existing index
         index.upsert(docs, embeddings)
-
 
 '''
 temp_file = 'tmp'
@@ -131,7 +121,6 @@ conversation = ConversationChain(memory=st.session_state.buffer_memory, prompt=p
 
 # container for chat history
 response_container = st.container()
-# container for text box
 textcontainer = st.container()
 
 
@@ -145,9 +134,6 @@ with textcontainer:
             st.subheader("Refined Query:")
             st.write(refined_query)
             context = find_match(refined_query)
-            #context_docs = index.similarity_search(refined_query)
-            #context = context_docs[0].page_content
-            # print(context)
             response = conversation.predict(input=f"Context:\n {context} \n\n Query:\n{query}")
         st.session_state.requests.append(query)
         st.session_state.responses.append(response)
