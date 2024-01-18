@@ -28,6 +28,7 @@ from transformers import AutoModelForQuestionAnswering
 from doc_emb import *
 from langchain_community.vectorstores import Pinecone
 import os
+import pinecone
 
 os.environ["HUGGINGFACEHUB_API_TOKEN"] = "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"
 st.subheader("LLM Chatbot")
