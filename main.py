@@ -45,11 +45,6 @@ if 'requests' not in st.session_state:
 ### HUGGINGFACE
 #repo_id = "google/flan-t5-base"
 #repo_id = "facebook/bart-large-cnn"
-repo_id = "mistralai/Mixtral-8x7B-Instruct-v0.1"
-
-llm = HuggingFaceHub(
-    repo_id=repo_id, model_kwargs={"temperature": 0.1, "max_length": 5000})
-
 
 #llm = AutoModelForQuestionAnswering.from_pretrained(repo_id)
 if 'buffer_memory' not in st.session_state:
@@ -105,17 +100,19 @@ for uploaded_file in uploaded_files:
 #index_name = "langchain-chatbot"
 #index = Pinecone.from_documents(docs, embeddings, index_name=index_name)
 '''
-option = st.selectbox("common prompts", ("Summarize from context", "Analyse from context"))
+repo_id = "mistralai/Mixtral-8x7B-Instruct-v0.1"
 
+llm = HuggingFaceHub(
+    repo_id=repo_id, model_kwargs={"temperature": 0.1, "max_length": 5000})
+
+option = st.selectbox("common prompts", ("Summarize from context", "Analyse from context"))
 if option:
     prompt = st.text_input('prompt template', option)
 else:
     prompt = st.text_input('prompt template', "")
 
 system_msg_template = SystemMessagePromptTemplate.from_template(template=prompt)
-
 human_msg_template = HumanMessagePromptTemplate.from_template(template="{input}")
-
 prompt_template = ChatPromptTemplate.from_messages([system_msg_template, MessagesPlaceholder(variable_name="history"), human_msg_template])
 
 conversation = ConversationChain(memory=st.session_state.buffer_memory, prompt=prompt_template, llm=llm, verbose=True)
